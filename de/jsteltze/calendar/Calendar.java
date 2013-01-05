@@ -53,6 +53,7 @@ import de.jsteltze.calendar.tasks.AutoUpdateTask;
 import de.jsteltze.calendar.tasks.SingletonTask;
 import de.jsteltze.common.Copy;
 import de.jsteltze.common.Math;
+import de.jsteltze.common.Trans;
 import de.jsteltze.common.calendar.Date;
 
 /**
@@ -149,8 +150,9 @@ public class Calendar {
                 events = parser.getEvents();
             } catch (CannotParseException e) {
                 JOptionPane.showMessageDialog(gui.getFrame(), 
-                        "Der Inhalt der Datei \"" + getPath(Const.XMLFILE) + "\" kann nicht gelesen werden.\n> " + e.getMessage() + "\nDer Kalender wird nun leer gestartet.",
-                        "Fehler beim Lesen...", JOptionPane.ERROR_MESSAGE);
+                        Trans.getMessage("errorMessageCannotParseXML", new String[] {getPath(Const.XMLFILE), e.getMessage()}),
+                        Trans.getMessage("errorMessageCannotParseXMLTitle"),
+                        JOptionPane.ERROR_MESSAGE);
             } catch (FileNotFoundException e) {
                 logger.debug("XML file \"" + getPath(Const.XMLFILE) + "\" not found, assuming first startup");
                 firstStartup = true;
@@ -178,8 +180,9 @@ public class Calendar {
                 } catch (IOException e) {}
             if (!test.canWrite())
                 JOptionPane.showMessageDialog(mainFrame,
-                        "Der Kalender hat hier keine Schreibrechte.\nDaher können keine neuen Daten oder Änderungen gespeichert werden.",
-                        "Keine Schreibrechte...", JOptionPane.ERROR_MESSAGE);
+                        Trans.getMessage("errorMessageNoWriteRights"),
+                        Trans.getMessage("errorMessageNoWriteRightsTitle"), 
+                        JOptionPane.ERROR_MESSAGE);
         } 
         else
             config = Configuration.defaultConfig;
@@ -567,12 +570,12 @@ public class Calendar {
             if (pendingAlarms.get(i).getEvent().equals(x.getEvent())) {
                 pendingAlarms.get(i).cancel();
                 pendingAlarms.remove(i);
-                gui.putMessage("Wecker für \"" + x.getEvent().getName() + "\" wurde geändert.");
+                gui.putMessage(Trans.getMessage("guiMessageAlarmChanged", new String[] {x.getEvent().getName()}));
                 break;
             }
         
         if (i == size)
-            gui.putMessage("Wecker für \"" + x.getEvent().getName() + "\" wurde gestellt.");
+            gui.putMessage(Trans.getMessage("guiMessageAlarmSet", new String[] {x.getEvent().getName()}));
         
         pendingAlarms.add(x);
         gui.updateStatusBar();
@@ -815,8 +818,9 @@ public class Calendar {
         if (!fullyLaunched) {
             logger.warn("edit requested BUT application NOT FULLY LAUNCHED!!!");
             JOptionPane.showMessageDialog(gui.getFrame(), 
-                    "Änderungen können jetzt nicht vorgenommen werden, da der Kalender noch nicht komplett gestartet ist.", 
-                    "Änderung noch nicht möglich", JOptionPane.WARNING_MESSAGE);
+                    Trans.getMessage("errorMessageNotYetFullyStarted"), 
+                    Trans.getMessage("errorMessageNotYetFullyStartedTitle"), 
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -845,7 +849,7 @@ public class Calendar {
 
         logger.debug("old event was: " + oldEvent.getName());
         gui.update();
-        gui.putMessage("Ereignis \"" + oldEvent.getName() + "\" wurde bearbeitet");
+        gui.putMessage(Trans.getMessage("guiMessageEventEdited", new String[] {oldEvent.getName()}));
         logger.debug("new date=" + newEvent.getDate().dateToString(true));
 
         save();
@@ -870,7 +874,7 @@ public class Calendar {
         }
         
         addEvent(event, true);
-        gui.putMessage("Ereignis \"" + event.getName() + "\" wurde kopiert");
+        gui.putMessage(Trans.getMessage("guiMessageEventCopied", new String[] {event.getName()}));
     }
     
     /**
@@ -879,7 +883,7 @@ public class Calendar {
      */
     public void newEvent(Event event) {
         addEvent(event, true);
-        gui.putMessage("Ereignis \"" + event.getName() + "\" wurde hinzugefügt");
+        gui.putMessage(Trans.getMessage("guiMessageEventAdded", new String[] {event.getName()}));
     }
 
     /**
@@ -907,8 +911,9 @@ public class Calendar {
         for (Event e : events)
             if (e.match(event.getDate()) && e.getName().equals(event.getName()))
                 if (JOptionPane.showConfirmDialog(gui.getFrame(),
-                        "Es gibt bereits ein Ereignis \"" + e.getName() + "\" am " + e.getDate().dateToString(false) + ".\nTrotzdem hinzufügen?", 
-                        "Doppeltes Ereignis...", JOptionPane.YES_NO_OPTION, 
+                        Trans.getMessage("questionEventAlreadyExists", new String[] {e.getName(), e.getDate().dateToString(false)}), 
+                        Trans.getMessage("questionEventAlreadyExistsTitle"), 
+                        JOptionPane.YES_NO_OPTION, 
                         JOptionPane.PLAIN_MESSAGE, null) 
                         == JOptionPane.YES_OPTION)
                     return;
@@ -966,8 +971,9 @@ public class Calendar {
         if (!fullyLaunched) {
             logger.warn("deletion requested BUT application NOT FULLY LAUNCHED!!!");
             JOptionPane.showMessageDialog(gui.getFrame(), 
-                    "Änderungen können jetzt nicht vorgenommen werden, da der Kalender noch nicht komplett gestartet ist.", 
-                    "Änderung noch nicht möglich", JOptionPane.WARNING_MESSAGE);
+                    Trans.getMessage("errorMessageNotYetFullyStarted"), 
+                    Trans.getMessage("errorMessageNotYetFullyStartedTitle"), 
+                    JOptionPane.WARNING_MESSAGE);
             return false;
         }
 
@@ -981,8 +987,9 @@ public class Calendar {
              */
             if (e.getFrequency() != Frequency.OCCUR_ONCE)
                 if (JOptionPane.showConfirmDialog(gui.getFrame(), 
-                        "Es soll das regelmäßige Ereignis \"" + e.getName() + "\" gelöscht werden.\nDas Ereignis wird dann nicht nur an diesem Tag, sondern überall gelöscht.\nFortfahren?",
-                        "Löschen von \"" + e.getName() + "\"...", JOptionPane.YES_NO_OPTION,
+                        Trans.getMessage("questionRemoveFrequentEvent", new String[] {e.getName()}),
+                        Trans.getMessage("questionRemoveEventTitle", new String[] {e.getName()}),
+                        JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION)
                     return false;
             
@@ -991,9 +998,8 @@ public class Calendar {
              */
             if (e.getEndDate() != null) {
                 if (JOptionPane.showConfirmDialog(gui.getFrame(),
-                        "Das Ereignis \"" + e.getName()
-                        + "\" erstreckt sich über mehrere Tage.\nSoll wirklich das komplette Ereignis gelöscht werden?",
-                        "Löschen von \"" + e.getName() + "\"", 
+                        Trans.getMessage("questionRemoveMultidayEvent", new String[] {e.getName()}),
+                        Trans.getMessage("questionRemoveEventTitle", new String[] {e.getName()}), 
                         JOptionPane.YES_NO_OPTION) != JOptionPane.YES_OPTION)
                     return false;                        
             }
@@ -1003,8 +1009,9 @@ public class Calendar {
              */
             if (!e.getNotes(workspace).equals("")) {
                 if (JOptionPane.showConfirmDialog(gui.getFrame(),
-                        "Sollen auch die Notizen zu diesem Ereignis geloscht werden?",
-                        "\"" + e.getName() + "\": Löschen der Notizen", JOptionPane.YES_NO_OPTION,
+                        Trans.getMessage("questionRemoveEventNotes"),
+                        Trans.getMessage("questionRemoveEventTitle", new String[] {e.getName()}),
+                        JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION)
                     return false;
                 new File(getPath(Const.EVENT_DIR) + File.separator + e.getID()
@@ -1016,8 +1023,9 @@ public class Calendar {
              */
             if (e.getAttachment(workspace) != null && !e.attachmentIsLink(workspace)) {
                 if (JOptionPane.showConfirmDialog(gui.getFrame(),
-                        "Dem Ereignis wurde eine Datei als Kopie angehangen.\nSoll diese Kopie gelöscht werden?",
-                        "\"" + e.getName() + "\": Löschen des Anhangs", JOptionPane.YES_NO_OPTION,
+                        Trans.getMessage("questionRemoveEventAttachment"),
+                        Trans.getMessage("questionRemoveEventTitle", new String[] {e.getName()}),
+                        JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE) != JOptionPane.YES_OPTION)
                     return false;
                 e.getAttachment(workspace).delete();
@@ -1049,7 +1057,7 @@ public class Calendar {
 
         gui.update();
         gui.updateStatusBar();
-        gui.putMessage("Ereignis \"" + e.getName() + "\" wurde gelöscht");
+        gui.putMessage(Trans.getMessage("guiMessageEventRemoved", new String[] {e.getName()}));
 
         save();
         return true;
@@ -1077,8 +1085,9 @@ public class Calendar {
         if (!fullyLaunched) {
             logger.warn("save requested BUT application NOT FULLY LAUNCHED!!!");
             JOptionPane.showMessageDialog(gui.getFrame(), 
-                    "Änderungen können jetzt nicht abgespeichert werden, da der Kalender noch nicht komplett gestartet ist.", 
-                    "Speichern wird verhindert", JOptionPane.WARNING_MESSAGE);
+                    Trans.getMessage("errorMessageNotYetFullyStarted"), 
+                    Trans.getMessage("errorMessageNotYetFullyStartedTitle"), 
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
 
@@ -1144,7 +1153,7 @@ public class Calendar {
         }
         gui.getFrame().setButtonPanelColor(x.getColors()[ColorSet.CONTROLPANEL]);
         gui.update();
-        gui.putMessage("Einstellungen wurden übernommen");
+        gui.putMessage(Trans.getMessage("guiMessageSettingsSaved"));
         save();
     }
     

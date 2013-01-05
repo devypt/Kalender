@@ -1,5 +1,5 @@
 /*
- *  java-calendar - a java calendar for Germany
+ *  common-package - various java utilities
  *  Copyright (C) 2012  Johannes Steltzer
  *
  *  This program is free software: you can redistribute it and/or modify
