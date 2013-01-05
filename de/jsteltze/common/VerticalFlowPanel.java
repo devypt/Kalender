@@ -36,7 +36,7 @@ public class VerticalFlowPanel
 	private static final long serialVersionUID = 1L;
 	
 	/** subpanel below the added component */
-	private JPanel panel;
+	private Vector<JPanel> panels;
 	
 	/** vertical padding (gap) in pixels */
 	private int vgap;
@@ -60,6 +60,7 @@ public class VerticalFlowPanel
 	public VerticalFlowPanel(int vgap) {
 		super(new BorderLayout(0, vgap));
 		this.components = new Vector<Component>();
+		this.panels = new Vector<JPanel>();
 		this.vgap = vgap;
 	}
 
@@ -67,14 +68,14 @@ public class VerticalFlowPanel
 	public Component add(Component comp) {
 		if (components.size() == 0) {
 			super.add(comp, BorderLayout.NORTH);
-			panel = new JPanel(new BorderLayout(0, vgap));
-			super.add(panel, BorderLayout.CENTER);
+			panels.add(new JPanel(new BorderLayout(0, vgap)));
+			super.add(panels.get(0), BorderLayout.CENTER);
 		}
 		else {
-			panel.add(comp, BorderLayout.NORTH);
+			panels.lastElement().add(comp, BorderLayout.NORTH);
 			JPanel subpanel = new JPanel(new BorderLayout(0, vgap));
-			panel.add(subpanel, BorderLayout.CENTER);
-			panel = subpanel;
+			panels.lastElement().add(subpanel, BorderLayout.CENTER);
+			panels.add(subpanel);
 		}
 		components.add(comp);
 		return comp;
@@ -101,8 +102,17 @@ public class VerticalFlowPanel
 			remove(comp, (JPanel) cps[1]);
 	}
 	
-	public boolean remove2(Component comp) {
-		remove(comp, this);
+	/**
+	 * Removes a component from the panel.
+	 * @param comp - Component to remove
+	 * @return True if component has been found and successfully
+	 * 		removed
+	 */
+	public boolean removeComponent(Component comp) {
+		if (super.getComponent(0).equals(comp))
+			super.remove(0);
+		else
+			remove(comp, panels.firstElement());
 		return components.remove(comp);
 	}
 	

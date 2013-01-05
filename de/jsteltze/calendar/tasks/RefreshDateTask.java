@@ -20,7 +20,7 @@ package de.jsteltze.calendar.tasks;
 
 import javax.swing.JLabel;
 
-import de.jsteltze.calendar.Date;
+import de.jsteltze.common.calendar.Date;
 
 /**
  * Thread for refreshing a date and time label each minute. 
@@ -28,57 +28,57 @@ import de.jsteltze.calendar.Date;
  *
  */
 public class RefreshDateTask 
-	extends Thread {
-	
-	/** label for showing date and time */
-	private JLabel label;
-	
-	/** set to false to stop this thread */
-	private boolean running;
+    extends Thread {
+    
+    /** label for showing date and time */
+    private JLabel label;
+    
+    /** set to false to stop this thread */
+    private boolean running;
 
-	/**
-	 * Construct a new task to display accurate date and
-	 * time in a label. Format is "DD.MM.YYYY HH:MM". 
-	 * @param label - Label to display date and time
-	 */
-	public RefreshDateTask(JLabel label) {
-		this.label = label;
-		this.running = true;
-	}
-	
-	/**
-	 * Stop this thread.
-	 */
-	public void stopit() {
-		this.running = false;
-		this.interrupt();
-	}
-	
-	@Override
-	public void run() {
-		/*
-		 * Fill the running minute
-		 */
-		Date date = new Date();
-		try {
-			Thread.sleep(1000 * (60 - date.get(Date.SECOND)));
-		} catch (InterruptedException e) {
-			return;
-		}
-		date = new Date();
-		label.setText(date.dateToString(true) + " " + date.timeToString());
+    /**
+     * Construct a new task to display accurate date and
+     * time in a label. Format is "DD.MM.YYYY HH:MM". 
+     * @param label - Label to display date and time
+     */
+    public RefreshDateTask(JLabel label) {
+        this.label = label;
+        this.running = true;
+    }
+    
+    /**
+     * Stop this thread.
+     */
+    public void stopit() {
+        this.running = false;
+        this.interrupt();
+    }
+    
+    @Override
+    public void run() {
+        /*
+         * Fill the running minute
+         */
+        Date date = new Date();
+        try {
+            Thread.sleep(1000 * (60 - date.get(Date.SECOND)));
+        } catch (InterruptedException e) {
+            return;
+        }
+        date = new Date();
+        label.setText(date.dateToString(true) + " " + date.timeToString());
 
-		/*
-		 * Refresh date and time in the label each minute
-		 */
-		while (running) {
-			try {
-				Thread.sleep(1000 * 60);
-			} catch (InterruptedException e) {
-				return;
-			}
-			date = new Date();
-			label.setText(date.dateToString(true) + " " + date.timeToString());
-		}
-	}
+        /*
+         * Refresh date and time in the label each minute
+         */
+        while (running) {
+            try {
+                Thread.sleep(1000 * 60);
+            } catch (InterruptedException e) {
+                return;
+            }
+            date = new Date();
+            label.setText(date.dateToString(true) + " " + date.timeToString());
+        }
+    }
 }

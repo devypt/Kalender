@@ -30,45 +30,45 @@ import de.jsteltze.calendar.frames.Notification;
  *
  */
 public class AlarmTask 
-	extends TimerTask 
-	implements Runnable {
+    extends TimerTask 
+    implements Runnable {
 
-	/** event to notify of */
-	private Event event;
+    /** event to notify of */
+    private Event event;
 
-	/** parent calendar object */
-	private Calendar caller;
+    /** parent calendar object */
+    private Calendar caller;
 
-	/**
-	 * Construct a new alarm task.
-	 * @param c - Parent calendar object
-	 * @param e - Event to notify of
-	 */
-	public AlarmTask(Calendar c, Event e) {
-		super();
-		event = e;
-		caller = c;
-	}
+    /**
+     * Construct a new alarm task.
+     * @param c - Parent calendar object
+     * @param e - Event to notify of
+     */
+    public AlarmTask(Calendar c, Event e) {
+        super();
+        event = e;
+        caller = c;
+    }
 
-	/**
-	 * 
-	 * @return Event that is subject of this AlarmTask.
-	 */
-	public Event getEvent() {
-		return this.event;
-	}
+    /**
+     * 
+     * @return Event that is subject of this AlarmTask.
+     */
+    public Event getEvent() {
+        return this.event;
+    }
 
-	/**
-	 * Set a new event for this AlarmTask.
-	 * @param x - New event to apply
-	 */
-	public void setEvent(Event x) {
-		this.event = x;
-	}
+    /**
+     * Set a new event for this AlarmTask.
+     * @param x - New event to apply
+     */
+    public void setEvent(Event x) {
+        this.event = x;
+    }
 
-	@Override
-	public void run() {
-		caller.removeAlarmTask(this);
-		new Notification(caller, event);
-	}
+    @Override
+    public void run() {
+        caller.removeAlarmTask(this);
+        new Notification(caller, event);
+    }
 }

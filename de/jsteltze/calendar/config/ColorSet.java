@@ -20,8 +20,6 @@ package de.jsteltze.calendar.config;
 
 import java.awt.Color;
 
-import de.jsteltze.common.Trans;
-
 /**
  * Class holding the different default colors
  * of the calendar UI.
@@ -29,26 +27,26 @@ import de.jsteltze.common.Trans;
  *
  */
 public class ColorSet {
-	public static final byte MAXCOLORS = 0x08;
+    public static final byte MAXCOLORS = 0x08;
 
-	public static final byte TODAY = 0x00;
-	public static final byte WEEKEND = 0x01;
-	public static final byte HOLIDAY = 0x02;
-	public static final byte SELECTED = 0x03;
-	public static final byte FONT = 0x04;
-	public static final byte FONT_HOLIDAY = 0x05;
-	public static final byte CONTROLPANEL = 0x06;
-	public static final byte NOTI = 0x07;
+    public static final byte TODAY = 0x00;
+    public static final byte WEEKEND = 0x01;
+    public static final byte HOLIDAY = 0x02;
+    public static final byte SELECTED = 0x03;
+    public static final byte FONT = 0x04;
+    public static final byte FONT_HOLIDAY = 0x05;
+    public static final byte CONTROLPANEL = 0x06;
+    public static final byte NOTI = 0x07;
 
-	public static final Color[] DEFAULT = {
-		Const.COLOR_DEF_TODAY, Const.COLOR_DEF_WEEKEND, 
-		Const.COLOR_DEF_HOLIDAY, Const.COLOR_DEF_SELECTED,
-		Const.COLOR_DEF_FONT, Const.COLOR_DEF_FONT_HOLIDAY,
-		Const.COLOR_DEF_CONTROL, Const.COLOR_DEF_NOTI
-	};
-	
-	public static final String[] NAMES = {Trans.t( "today"), Trans.t("weekend"), 
-		Trans.t("holiday"),	Trans.t("mark"),Trans.t( "Font color for events"), 
-		Trans.t("Font color for holidays"), Trans.t("control bar"),  
-		Trans.t("reminder window") };
+    public static final Color[] DEFAULT = {
+        Const.COLOR_DEF_TODAY, Const.COLOR_DEF_WEEKEND, 
+        Const.COLOR_DEF_HOLIDAY, Const.COLOR_DEF_SELECTED,
+        Const.COLOR_DEF_FONT, Const.COLOR_DEF_FONT_HOLIDAY,
+        Const.COLOR_DEF_CONTROL, Const.COLOR_DEF_NOTI
+    };
+    
+    public static final String[] NAMES = { "Heute", "Wochenende", 
+        "Feiertag",    "Markierung", "Schriftfarbe für Ereignisse", 
+        "Schriftfarbe für Feiertage", "Steuerleiste",  
+        "Erinnerungsfenster" };
 }

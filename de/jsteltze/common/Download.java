@@ -6,6 +6,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Observable;
 
+import org.apache.log4j.Logger;
+
 // This class downloads a file from a URL.
 public class Download extends Observable implements Runnable {
 
@@ -22,6 +24,8 @@ public class Download extends Observable implements Runnable {
 	public static final int COMPLETE = 2;
 	public static final int CANCELLED = 3;
 	public static final int ERROR = 4;
+	
+	private static Logger logger = Logger.getLogger(Download.class);
 
 	private URL url; /* Download URL */
 	private String filename;/* Filename to save */
@@ -41,7 +45,7 @@ public class Download extends Observable implements Runnable {
 		downloaded = 0;
 		status = DOWNLOADING;
 
-		Logger.debug("start downloading " + url.toString());
+		logger.debug("start downloading " + url.toString());
 
 		/* start the download */
 		download();

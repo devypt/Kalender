@@ -1,5 +1,5 @@
 /*
- *  common-package - various java utilities
+ *  java-calendar - a java calendar for Germany
  *  Copyright (C) 2012  Johannes Steltzer
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -18,33 +18,18 @@
 
 package de.jsteltze.common;
 
+
 /**
- * Very basic logging utility. Uses stderr for outputs.
+ * Right rolling border for calendar button panel.
  * @author Johannes Steltzer
  *
  */
-public class Logger {
+public interface SelectablePanelListener {
 	
-	private Logger()  {}
-	
-	private static void doLog(String msg) {
-		System.err.println(System.currentTimeMillis() + " " + msg);
-	}
-	
-	public static void debug(String msg) {
-		doLog("DEBUG: " + msg);
-	}
-	
-	public static void log(String msg) {
-		doLog("INFO : " + msg);
-	}
-	
-	public static void warn(String msg) {
-		doLog("WARN : " + msg);
-	}
-	
-	public static void error(String msg) {
-		doLog("ERROR: " + msg);
-	}
-	
+	/**
+	 * This will be invoked if a selectable panel has been
+	 * selected.
+	 * @param sp - Selected panel
+	 */
+	public void panelSelected(SelectablePanel sp);
 }

@@ -25,15 +25,15 @@ package de.jsteltze.calendar.exceptions;
  *
  */
 public class CannotParseException 
-	extends Exception {
-	
-	private static final long serialVersionUID = 1L;
+    extends Exception {
+    
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * 
-	 * @param s - Error description (e.g. exception.toString())
-	 */
-	public CannotParseException(String s) {
-		super(s);
-	}
+    /**
+     * 
+     * @param s - Error description (e.g. exception.toString())
+     */
+    public CannotParseException(String s) {
+        super(s);
+    }
 }

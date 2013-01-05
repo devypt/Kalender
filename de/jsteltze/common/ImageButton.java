@@ -26,6 +26,8 @@ import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import org.apache.log4j.Logger;
+
 /**
  * Images as buttons with two states: pressed and not pressed.
  * @author Johannes Steltzer
@@ -57,6 +59,8 @@ public class ImageButton
 
 	/** list of listeners to notify when this button gets pressed */
 	private Vector<ImageButtonListener> listeners;
+	
+	private static Logger logger = Logger.getLogger(ImageButton.class);
 
 	/**
 	 * Construct new ImageButton.
@@ -93,7 +97,7 @@ public class ImageButton
 
 	@Override
 	public void mousePressed(MouseEvent m) {
-		Logger.debug("pressed");
+		logger.debug("pressed");
 		if (isPressed) {
 			if (myGroup == null)
 				this.setPressed(false);
@@ -108,7 +112,7 @@ public class ImageButton
 
 	@Override
 	public void mouseReleased(MouseEvent m) {
-		Logger.debug("released");
+		logger.debug("released");
 		if (stayPressed)
 			return;
 		if (isPressed && myGroup != null)

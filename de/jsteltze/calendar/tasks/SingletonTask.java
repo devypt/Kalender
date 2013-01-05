@@ -21,9 +21,10 @@ package de.jsteltze.calendar.tasks;
 import java.io.File;
 import java.io.IOException;
 
-import de.jsteltze.calendar.Calendar;
+import org.apache.log4j.Logger;
+
+import de.jsteltze.calendar.config.Const;
 import de.jsteltze.calendar.frames.CalendarFrame;
-import de.jsteltze.common.Logger;
 
 /**
  * Thread to make sure the calendar is only started once.
@@ -31,61 +32,62 @@ import de.jsteltze.common.Logger;
  *
  */
 public class SingletonTask 
-	extends Thread {
-	
-	/** calendar frame to observe */
-	private CalendarFrame cal;
-	
-	/** set to false to stop this thread */
-	private boolean running;
-	
-	/**
-	 * Construct a new thread to make sure the calendar
-	 * is only started once.
-	 * @param c - Calendar frame to observe
-	 */
-	public SingletonTask(CalendarFrame c) {
-		super();
-		cal = c;
-		running = true;
-		
-		try {
-			/*
-			 * Create lock file
-			 */
-			Logger.debug("create Lock");
-			new File(c.getPath(Calendar.LOCKFILE)).createNewFile();
-		} catch (IOException e) {
-			Logger.error("cannot create lock file: "+e.toString());
-		}
-	}
-	
-	/**
-	 * Stop this thread.
-	 */
-	public void stopit() {
-		this.running = false;
-		this.interrupt();
-	}
-	
-	@Override
-	public void run() {
-		File maxfile = new File(cal.getPath(Calendar.MAXIMIZEFILE));
-		while (running) {
-			/*
-			 * Check for a maximize file
-			 */
-			try {
-				if (maxfile.exists()) {
-					Logger.debug("New calendar tries to launch. Maximize.");
-					maxfile.delete();
-					cal.maximize();
-				}
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-				Logger.warn("sleep interrupted: "+e.toString());
-				return;
-			}
-		}
-	}
+    extends Thread {
+    
+    /** calendar frame to observe */
+    private CalendarFrame cal;
+    
+    /** set to false to stop this thread */
+    private boolean running;
+    
+    private static Logger logger = Logger.getLogger(SingletonTask.class);
+    
+    /**
+     * Construct a new thread to make sure the calendar
+     * is only started once.
+     * @param c - Calendar frame to observe
+     */
+    public SingletonTask(CalendarFrame c) {
+        super();
+        cal = c;
+        running = true;
+        
+        try {
+            /*
+             * Create lock file
+             */
+            logger.debug("create Lock");
+            new File(c.getPath(Const.LOCKFILE)).createNewFile();
+        } catch (IOException e) {
+            logger.error("cannot create lock file...", e);
+        }
+    }
+    
+    /**
+     * Stop this thread.
+     */
+    public void stopit() {
+        this.running = false;
+        this.interrupt();
+    }
+    
+    @Override
+    public void run() {
+        File maxfile = new File(cal.getPath(Const.MAXIMIZEFILE));
+        while (running)
+            /*
+             * Check for a maximize file
+             */
+            try {
+                if (maxfile.exists()) {
+                    logger.debug("New calendar tries to launch. Maximize.");
+                    maxfile.delete();
+                    cal.maximize();
+                }
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                logger.warn("sleep interrupted: "+e.toString());
+                return;
+            }
+    }
 }

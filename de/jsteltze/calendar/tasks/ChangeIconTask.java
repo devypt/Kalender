@@ -29,24 +29,24 @@ import de.jsteltze.calendar.frames.CalendarFrame;
  *
  */
 public class ChangeIconTask 
-	extends TimerTask 
-	implements Runnable {
+    extends TimerTask 
+    implements Runnable {
 
-	/** calendar frame that is subject of icon changes */
-	private CalendarFrame caller;
+    /** calendar frame that is subject of icon changes */
+    private CalendarFrame caller;
 
-	/**
-	 * Construct a new task for icon changes.
-	 * @param c - Calendar frame that shall be subject of
-	 * 		icon changes 
-	 */
-	public ChangeIconTask(CalendarFrame c) {
-		super();
-		caller = c;
-	}
+    /**
+     * Construct a new task for icon changes.
+     * @param c - Calendar frame that shall be subject of
+     *         icon changes 
+     */
+    public ChangeIconTask(CalendarFrame c) {
+        super();
+        caller = c;
+    }
 
-	@Override
-	public void run() {
-		caller.changeIcon();
-	}
+    @Override
+    public void run() {
+        caller.changeIcon();
+    }
 }

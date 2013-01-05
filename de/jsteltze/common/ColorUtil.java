@@ -25,7 +25,12 @@ import java.awt.Color;
  * @author Johannes Steltzer
  *
  */
-public class ColorUtil {
+public final class ColorUtil {
+    
+    /**
+     * Constructor not for public use.
+     */
+    private ColorUtil() {}
 	
 	/**
 	 * Add some saturation to a given color.

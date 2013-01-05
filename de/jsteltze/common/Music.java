@@ -28,6 +28,8 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
+import org.apache.log4j.Logger;
+
 /**
  * Music utilities.
  * @author Johannes Steltzer
@@ -35,8 +37,12 @@ import javax.sound.sampled.UnsupportedAudioFileException;
  */
 public final class Music {
 	
-	/** Empty private constructor. */
+	/**
+	 * Constructor not for public use.
+	 */
 	private Music() { }
+	
+	private static Logger logger = Logger.getLogger(Music.class);
 	
 	/**
 	 * Plays an audio theme.
@@ -50,7 +56,7 @@ public final class Music {
 	public static void playTheme(String path, boolean internal) 
 			throws LineUnavailableException, UnsupportedAudioFileException, 
 			IOException {
-		Logger.debug("play theme");
+		logger.debug("play theme: " + path);
 
 		Clip clip = AudioSystem.getClip();
 		AudioInputStream audioInputStream;

@@ -18,14 +18,14 @@ public class Trans {
     }
     public static String t(String key)
     {
-    	 ResourceBundle rb = ResourceBundle.getBundle("translations/local", Locale.US);
-    	try{
- 		 String value = rb.getString(key);
- 		return value;
-    	}catch(Exception e){
-    		return key;
-    	 }
- 		 
+         ResourceBundle rb = ResourceBundle.getBundle("translations/local", Locale.US);
+        try{
+          String value = rb.getString(key);
+         return value;
+        }catch(Exception e){
+            return key;
+         }
+          
     }
     
 

@@ -27,40 +27,40 @@ import de.jsteltze.calendar.frames.CalendarFrame;
  *
  */
 public interface CalendarGUI {
-	
-	/**
-	 * Update the calendar status bar.
-	 */
-	public void updateStatusBar();
-	
-	/**
-	 * Refresh the calendar. Is called when an event is added or
-	 * removed.
-	 */
-	public void update();
-	
-	/**
-	 * 
-	 * @return Active calendar frame or null in case of java applet.
-	 */
-	public CalendarFrame getFrame();
-	
-	/**
-	 * 
-	 * @return Active calendar applet or null in case of 
-	 * 		frame based java application.
-	 */
-	public CalendarApplet getApplet();
-	
-	/**
-	 * Show a message in the status bar.
-	 * @param msg - Message to put
-	 */
-	public void putMessage(String msg);
-	
-	/**
-	 * Gracefully shutdown the program and stop
-	 * GUI related tasks.
-	 */
-	public void shutdown();
+    
+    /**
+     * Update the calendar status bar.
+     */
+    public void updateStatusBar();
+    
+    /**
+     * Refresh the calendar. Is called when an event is added or
+     * removed.
+     */
+    public void update();
+    
+    /**
+     * 
+     * @return Active calendar frame or null in case of java applet.
+     */
+    public CalendarFrame getFrame();
+    
+    /**
+     * 
+     * @return Active calendar applet or null in case of 
+     *         frame based java application.
+     */
+    public CalendarApplet getApplet();
+    
+    /**
+     * Show a message in the status bar.
+     * @param msg - Message to put
+     */
+    public void putMessage(String msg);
+    
+    /**
+     * Gracefully shutdown the program and stop
+     * GUI related tasks.
+     */
+    public void shutdown();
 }

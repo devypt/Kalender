@@ -24,22 +24,22 @@ package de.jsteltze.calendar.exceptions;
  *
  */
 public class InvalidDateException 
-	extends Exception {
-	
-	private static final long serialVersionUID = 1L;
+    extends Exception {
+    
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * General invalid date exception.
-	 */
-	public InvalidDateException() {
-		super();
-	}
+    /**
+     * General invalid date exception.
+     */
+    public InvalidDateException() {
+        super();
+    }
 
-	/**
-	 * 
-	 * @param s - Error description (e.g. exception.toString())
-	 */
-	public InvalidDateException(String s) {
-		super(s);
-	}
+    /**
+     * 
+     * @param s - Error description (e.g. exception.toString())
+     */
+    public InvalidDateException(String s) {
+        super(s);
+    }
 }

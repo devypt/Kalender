@@ -23,8 +23,11 @@ package de.jsteltze.common;
  * @author Johannes Steltzer
  *
  */
-public class Math {
+public final class Math {
 	
+	/**
+	 * Constructor not for public use.
+	 */
 	private Math() {}
 	
 	/**

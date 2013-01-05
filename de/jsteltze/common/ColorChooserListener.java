@@ -26,5 +26,11 @@ import java.awt.Color;
  *
  */
 public interface ColorChooserListener {
+	
+	/**
+	 * Will be called if a color on a ColorChooser
+	 * has been selected.
+	 * @param c - Selected color
+	 */
 	public void colorChosen(Color c);
 }

@@ -18,10 +18,14 @@
 
 package de.jsteltze.calendar.UI;
 
-import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+
+import javax.swing.JPanel;
+
+import de.jsteltze.calendar.config.Const;
 
 /**
  * Left rolling border for calendar button panel.
@@ -29,50 +33,52 @@ import java.awt.Image;
  *
  */
 public class LeftPanelBorder 
-	extends Canvas {
-	
-	private static final long serialVersionUID = 1L;
-	
-	/** button panel color */
-	private Color c;
-	
-	/** image to paint */
-	private Image img;
-	
-	/**
-	 * Construct a new left panel border.
-	 * @param img - Image to paint
-	 * @param c - Button panel color
-	 */
-	public LeftPanelBorder(Image img, Color c) {
-		this.c = c;
-		this.img = img;
-	}
-	
-	@Override
-	public void paint(Graphics g1) {
-		g1.drawImage(img, 0, 0, Color.black, this);
-		
-		if (c == null)
-			return;
-		g1.setColor(c);
-		g1.drawLine(2, 0, 2, 0);
-		g1.drawLine(3, 0, 3, 1);
-		g1.drawLine(4, 0, 4, 2);
-		g1.drawLine(5, 0, 5, 4);
-		g1.fillRect(6, 0, 5, 31);
-		g1.fillRect(7, 31, 4, 2);
-		g1.drawLine(8, 33, 10, 33);
-		g1.drawLine(9, 34, 10, 34);
-	}
-	
-	/**
-	 * 
-	 * @param x - New color to set
-	 */
-	public void setColor(Color x) {
-		this.c = x;
-		repaint();
-	}
+    extends JPanel {
+    
+    private static final long serialVersionUID = 1L;
+    
+    /** button panel color */
+    private Color c;
+    
+    /** image to paint */
+    private Image img;
+    
+    /**
+     * Construct a new left panel border.
+     * @param img - Image to paint
+     * @param c - Button panel color
+     */
+    public LeftPanelBorder(Image img, Color c) {
+        this.c = c;
+        this.img = img;
+        this.setPreferredSize(new Dimension(11, 36));
+    }
+    
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        
+        g.drawImage(img, 0, 0, Const.COLOR_BG_MAIN, this);
+        
+        if (c == null)
+            return;
+        g.setColor(c);
+        g.drawLine(2, 0, 2, 0);
+        g.drawLine(3, 0, 3, 1);
+        g.drawLine(4, 0, 4, 2);
+        g.drawLine(5, 0, 5, 4);
+        g.fillRect(6, 0, 5, 31);
+        g.fillRect(7, 31, 4, 2);
+        g.drawLine(8, 33, 10, 33);
+        g.drawLine(9, 34, 10, 34);
+    }
+    
+    /**
+     * 
+     * @param x - New color to set
+     */
+    public void setColor(Color x) {
+        this.c = x;
+        repaint();
+    }
 }
 
